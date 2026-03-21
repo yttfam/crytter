@@ -3,6 +3,9 @@ name = "crytter-wasm"
 version.workspace = true
 edition.workspace = true
 
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
 [lib]
 crate-type = ["cdylib", "rlib"]
 

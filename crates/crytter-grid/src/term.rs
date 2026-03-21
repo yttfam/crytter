@@ -248,6 +248,22 @@ impl Terminal {
                 .unwrap_or(default)
         };
 
+        // CSI > ... — xterm-style queries
+        if intermediates.first() == Some(&b'>') {
+            match action {
+                // XTVERSION — report terminal name/version
+                'q' => {
+                    self.responses.push(b"\x1bP>|crytter 0.1.0\x1b\\".to_vec());
+                }
+                // DA2 — Secondary Device Attributes
+                'c' => {
+                    self.responses.push(b"\x1b[>1;0;0c".to_vec());
+                }
+                _ => {}
+            }
+            return;
+        }
+
         // Check for DEC private mode (? prefix)
         if intermediates.first() == Some(&b'?') {
             match action {
@@ -264,7 +280,9 @@ impl Terminal {
                             6 => if self.modes.origin { 1 } else { 2 },
                             7 => if self.modes.autowrap { 1 } else { 2 },
                             25 => if self.cursor.visible { 1 } else { 2 },
+                            1004 => 2, // focus reporting — not active
                             2004 => if self.modes.bracket_paste { 1 } else { 2 },
+                            2026 => 4, // synchronized output — permanently reset (4)
                             _ => 0, // not recognized
                         };
                         self.responses.push(
@@ -423,15 +441,12 @@ impl Terminal {
                     }
                 }
             }
-            // DA1 — Primary Device Attributes / DA2 — Secondary
+            // DA1 — Primary Device Attributes
             'c' => {
                 if intermediates.is_empty() {
-                    // DA1: report as VT220 with ANSI color
                     self.responses.push(b"\x1b[?62;22c".to_vec());
-                } else if intermediates.first() == Some(&b'>') {
-                    // DA2: report as VT220, version 0
-                    self.responses.push(b"\x1b[>1;0;0c".to_vec());
                 }
+                // DA2 (intermediates = '>') is handled in the > block above
             }
             // DSR — Device Status Report
             'n' => {
@@ -729,13 +744,16 @@ impl Terminal {
                 1 => self.modes.app_cursor = true,
                 6 => self.modes.origin = true,
                 7 => self.modes.autowrap = true,
+                12 => {} // Cursor blink — acknowledge, no-op
                 25 => self.cursor.visible = true,
                 47 | 1047 => self.switch_alt_screen(true),
+                1004 => {} // Focus reporting — acknowledge, no-op for now
                 1049 => {
                     self.cursor.save();
                     self.switch_alt_screen(true);
                 }
                 2004 => self.modes.bracket_paste = true,
+                2026 => {} // Synchronized output (DECSYNC) — acknowledge, no-op
                 _ => {}
             }
         }
@@ -747,14 +765,17 @@ impl Terminal {
                 1 => self.modes.app_cursor = false,
                 6 => self.modes.origin = false,
                 7 => self.modes.autowrap = false,
+                12 => {} // Cursor blink
                 25 => self.cursor.visible = false,
                 47 | 1047 => self.switch_alt_screen(false),
+                1004 => {} // Focus reporting
                 1049 => {
                     self.switch_alt_screen(false);
                     self.cursor.restore();
                     self.clamp_cursor();
                 }
                 2004 => self.modes.bracket_paste = false,
+                2026 => {} // Synchronized output
                 _ => {}
             }
         }
