@@ -1,0 +1,16 @@
+[package]
+name = "crytter-render"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+crytter-grid = { path = "../crytter-grid" }
+web-sys = { workspace = true, features = [
+    "CanvasRenderingContext2d",
+    "HtmlCanvasElement",
+    "Document",
+    "Window",
+    "TextMetrics",
+] }
+wasm-bindgen = { workspace = true }
+log = { workspace = true }

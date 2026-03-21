@@ -1,0 +1,8 @@
+[package]
+name = "crytter-grid"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+crytter-vte = { path = "../crytter-vte" }
+log = { workspace = true }

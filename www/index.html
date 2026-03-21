@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>crytter — terminal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      font-family: system-ui, sans-serif;
+    }
+    header {
+      background: #2d2d2d;
+      color: #888;
+      padding: 8px 16px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #3d3d3d;
+      user-select: none;
+    }
+    header .title { color: #d4d4d4; font-weight: 600; }
+    header .info { font-size: 12px; }
+    #terminal-container {
+      flex: 1;
+      overflow: hidden;
+      cursor: text;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="title" id="tab-title">crytter</span>
+    <span class="info" id="term-info">loading...</span>
+  </header>
+  <div id="terminal-container"></div>
+
+  <script type="module">
+    import init, { Terminal } from '/pkg/crytter_wasm.js';
+
+    async function main() {
+      await init();
+
+      const container = document.getElementById('terminal-container');
+      const term = new Terminal();
+      term.open(container);
+
+      document.getElementById('term-info').textContent =
+        `${term.cols}×${term.rows}`;
+
+      // Title change
+      term.onTitleChange((title) => {
+        document.getElementById('tab-title').textContent = title;
+        document.title = title;
+      });
+
+      // Connect to hermytt WebSocket PTY server.
+      // Default: same host, port 7777. Override with ?ws=<url>&token=<token>
+      const params = new URLSearchParams(location.search);
+      const wsHost = params.get('host') || location.hostname;
+      const wsPort = params.get('port') || '7777';
+      const token = params.get('token') || 'hermytt-test-token';
+      const wsUrl = `ws://${wsHost}:${wsPort}/ws?token=${encodeURIComponent(token)}`;
+
+      let ws = new WebSocket(wsUrl);
+      let authenticated = false;
+
+      ws.onopen = () => {
+        // hermytt expects token as first message
+        ws.send(token);
+      };
+
+      ws.onmessage = (e) => {
+        const data = e.data;
+        if (!authenticated) {
+          if (data === 'auth:ok') {
+            authenticated = true;
+            document.getElementById('term-info').textContent =
+              `${term.cols}×${term.rows} · connected`;
+            return;
+          }
+        }
+        term.write(data);
+      };
+
+      ws.onclose = () => {
+        document.getElementById('term-info').textContent =
+          `${term.cols}×${term.rows} · disconnected`;
+        term.write('\r\n\x1b[2m[session ended]\x1b[0m\r\n');
+      };
+
+      ws.onerror = () => {
+        term.write('\x1b[31m[connection failed — is hermytt running on ' + wsHost + ':' + wsPort + '?]\x1b[0m\r\n');
+      };
+
+      // Keyboard
+      document.addEventListener('keydown', (e) => {
+        const data = term.handleKeyEvent(e);
+        if (data != null) {
+          e.preventDefault();
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(data);
+          }
+        }
+      });
+
+      // Scroll — mouse wheel
+      container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const lines = Math.max(1, Math.round(Math.abs(e.deltaY) / 20));
+        if (e.deltaY < 0) {
+          term.scrollUp(lines);
+        } else {
+          term.scrollDown(lines);
+        }
+      }, { passive: false });
+
+      // Fit on resize
+      window.addEventListener('resize', () => {
+        term.fit();
+        document.getElementById('term-info').textContent =
+          `${term.cols}×${term.rows} · ${ws.readyState === WebSocket.OPEN ? 'connected' : 'disconnected'}`;
+      });
+    }
+
+    main().catch(console.error);
+  </script>
+</body>
+</html>

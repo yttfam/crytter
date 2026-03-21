@@ -1,0 +1,29 @@
+[package]
+name = "crytter-wasm"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+crytter-vte = { path = "../crates/crytter-vte" }
+crytter-grid = { path = "../crates/crytter-grid" }
+crytter-render = { path = "../crates/crytter-render" }
+crytter-input = { path = "../crates/crytter-input" }
+wasm-bindgen = { workspace = true }
+web-sys = { workspace = true, features = [
+    "HtmlCanvasElement",
+    "HtmlElement",
+    "KeyboardEvent",
+    "MouseEvent",
+    "Document",
+    "Window",
+    "Element",
+    "CssStyleDeclaration",
+    "FocusEvent",
+    "EventTarget",
+    "AddEventListenerOptions",
+] }
+js-sys = { workspace = true }
+log = { workspace = true }

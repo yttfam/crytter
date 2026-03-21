@@ -1,0 +1,8 @@
+[package]
+name = "crytter-vte"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+vte = { workspace = true }
+log = { workspace = true }
