@@ -436,7 +436,101 @@ fn stress_rapid_resize() {
 #[test]
 fn cell_out_of_bounds_returns_default() {
     let term = Terminal::new(80, 24);
-    // Access way out of bounds
     let cell = term.grid().cell(999, 999);
     assert_eq!(cell.c, ' ');
+}
+
+// ============================================================
+// Device query responses (DA1, DA2, CPR, DSR, DECRQM)
+// ============================================================
+
+#[test]
+fn da1_primary_device_attributes() {
+    let mut term = Terminal::new(80, 24);
+    feed(&mut term, b"\x1b[c"); // DA1 query
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[?62;22c");
+}
+
+#[test]
+fn da2_secondary_device_attributes() {
+    let mut term = Terminal::new(80, 24);
+    feed(&mut term, b"\x1b[>c"); // DA2 query
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[>1;0;0c");
+}
+
+#[test]
+fn cpr_cursor_position_report() {
+    let mut term = Terminal::new(80, 24);
+    feed(&mut term, b"\x1b[5;10H"); // move to row 5, col 10
+    feed(&mut term, b"\x1b[6n");    // CPR query
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[5;10R");
+}
+
+#[test]
+fn dsr_status_report() {
+    let mut term = Terminal::new(80, 24);
+    feed(&mut term, b"\x1b[5n"); // DSR status query
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[0n"); // "OK"
+}
+
+#[test]
+fn decrqm_mode_report() {
+    let mut term = Terminal::new(80, 24);
+    // Enable bracket paste, then query it
+    feed(&mut term, b"\x1b[?2004h");
+    feed(&mut term, b"\x1b[?2004$p");
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[?2004;1$y"); // 1 = set
+
+    // Disable and re-query
+    feed(&mut term, b"\x1b[?2004l");
+    feed(&mut term, b"\x1b[?2004$p");
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[?2004;2$y"); // 2 = reset
+}
+
+#[test]
+fn window_size_report() {
+    let mut term = Terminal::new(120, 40);
+    feed(&mut term, b"\x1b[18t"); // report size in chars
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 1);
+    assert_eq!(responses[0], b"\x1b[8;40;120t");
+}
+
+#[test]
+fn cursor_shape_change() {
+    let mut term = Terminal::new(80, 24);
+    use crytter_grid::CursorShape;
+
+    // Bar cursor
+    feed(&mut term, b"\x1b[5 q");
+    assert_eq!(term.cursor().shape, CursorShape::Bar);
+
+    // Underline cursor
+    feed(&mut term, b"\x1b[3 q");
+    assert_eq!(term.cursor().shape, CursorShape::Underline);
+
+    // Block cursor
+    feed(&mut term, b"\x1b[1 q");
+    assert_eq!(term.cursor().shape, CursorShape::Block);
+}
+
+#[test]
+fn multiple_queries_in_one_write() {
+    let mut term = Terminal::new(80, 24);
+    // DA1 + CPR in one sequence
+    feed(&mut term, b"\x1b[c\x1b[6n");
+    let responses = term.drain_responses();
+    assert_eq!(responses.len(), 2);
 }

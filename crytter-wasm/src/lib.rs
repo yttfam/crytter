@@ -71,7 +71,8 @@ impl Terminal {
 
     /// Write PTY output data to the terminal. Does NOT render —
     /// call `render()` from a rAF callback to batch multiple writes.
-    pub fn write(&mut self, data: &str) {
+    /// Returns response bytes to send back to the PTY (DA1, CPR, etc), or null.
+    pub fn write(&mut self, data: &str) -> Option<String> {
         let actions = self.parser.parse(data.as_bytes());
         let old_title = self.grid.title().to_string();
         self.grid.process(&actions);
@@ -84,11 +85,12 @@ impl Terminal {
         }
 
         self.dirty = true;
+        self.collect_responses()
     }
 
     /// Write raw bytes to the terminal.
     #[wasm_bindgen(js_name = "writeBytes")]
-    pub fn write_bytes(&mut self, data: &[u8]) {
+    pub fn write_bytes(&mut self, data: &[u8]) -> Option<String> {
         let actions = self.parser.parse(data);
         let old_title = self.grid.title().to_string();
         self.grid.process(&actions);
@@ -101,6 +103,17 @@ impl Terminal {
         }
 
         self.dirty = true;
+        self.collect_responses()
+    }
+
+    /// Collect any queued terminal responses into a single string.
+    fn collect_responses(&mut self) -> Option<String> {
+        let responses = self.grid.drain_responses();
+        if responses.is_empty() {
+            return None;
+        }
+        let combined: Vec<u8> = responses.into_iter().flatten().collect();
+        Some(combined.iter().map(|&b| char::from(b)).collect())
     }
 
     /// Register a callback for title changes.

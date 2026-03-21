@@ -63,8 +63,9 @@ pub struct Terminal {
     /// Window title (set via OSC).
     title: String,
     /// Whether the cursor needs to wrap on next print.
-    /// (pending wrap state — cursor is at last column but hasn't wrapped yet)
     wrap_pending: bool,
+    /// Response queue — bytes to send back to the PTY (DA1, CPR, etc).
+    responses: Vec<Vec<u8>>,
 }
 
 impl Terminal {
@@ -89,6 +90,7 @@ impl Terminal {
             tabs,
             title: String::new(),
             wrap_pending: false,
+            responses: Vec::new(),
         }
     }
 
@@ -110,6 +112,12 @@ impl Terminal {
 
     pub fn cols(&self) -> usize {
         self.grid.cols()
+    }
+
+    /// Drain response bytes queued by terminal queries (DA1, CPR, etc).
+    /// The caller should send these back to the PTY.
+    pub fn drain_responses(&mut self) -> Vec<Vec<u8>> {
+        std::mem::take(&mut self.responses)
     }
 
     pub fn rows(&self) -> usize {
@@ -245,6 +253,25 @@ impl Terminal {
             match action {
                 'h' => self.dec_set(params),
                 'l' => self.dec_reset(params),
+                // DECRQM — DEC private mode report (CSI ? Ps $ p)
+                // Some apps check this, respond with mode status
+                'p' => {
+                    // respond "not recognized" (0) for unknown modes
+                    // This at least unblocks apps waiting for a response
+                    if let Some(mode) = params.first().and_then(|p| p.first().copied()) {
+                        let status = match mode {
+                            1 => if self.modes.app_cursor { 1 } else { 2 },
+                            6 => if self.modes.origin { 1 } else { 2 },
+                            7 => if self.modes.autowrap { 1 } else { 2 },
+                            25 => if self.cursor.visible { 1 } else { 2 },
+                            2004 => if self.modes.bracket_paste { 1 } else { 2 },
+                            _ => 0, // not recognized
+                        };
+                        self.responses.push(
+                            format!("\x1b[?{mode};{status}$y").into_bytes(),
+                        );
+                    }
+                }
                 _ => {}
             }
             return;
@@ -394,6 +421,56 @@ impl Terminal {
                     if p.first().copied() == Some(4) {
                         self.modes.insert = false;
                     }
+                }
+            }
+            // DA1 — Primary Device Attributes / DA2 — Secondary
+            'c' => {
+                if intermediates.is_empty() {
+                    // DA1: report as VT220 with ANSI color
+                    self.responses.push(b"\x1b[?62;22c".to_vec());
+                } else if intermediates.first() == Some(&b'>') {
+                    // DA2: report as VT220, version 0
+                    self.responses.push(b"\x1b[>1;0;0c".to_vec());
+                }
+            }
+            // DSR — Device Status Report
+            'n' => {
+                let mode = param(0, 0);
+                match mode {
+                    // Status report — respond "OK"
+                    5 => self.responses.push(b"\x1b[0n".to_vec()),
+                    // CPR — Cursor Position Report
+                    6 => {
+                        let row = self.cursor.row + 1;
+                        let col = self.cursor.col + 1;
+                        self.responses
+                            .push(format!("\x1b[{row};{col}R").into_bytes());
+                    }
+                    _ => {}
+                }
+            }
+            // DECSCUSR — Set Cursor Style (CSI Ps SP q)
+            'q' if intermediates.first() == Some(&b' ') => {
+                let style = param(0, 1);
+                self.cursor.shape = match style {
+                    0 | 1 | 2 => crate::cursor::CursorShape::Block,
+                    3 | 4 => crate::cursor::CursorShape::Underline,
+                    5 | 6 => crate::cursor::CursorShape::Bar,
+                    _ => crate::cursor::CursorShape::Block,
+                };
+            }
+            // CSI t — Window manipulation
+            't' => {
+                let mode = param(0, 0);
+                match mode {
+                    // Report terminal size in chars
+                    18 => {
+                        let rows = self.grid.rows();
+                        let cols = self.grid.cols();
+                        self.responses
+                            .push(format!("\x1b[8;{rows};{cols}t").into_bytes());
+                    }
+                    _ => {}
                 }
             }
             _ => {} // Unhandled CSI

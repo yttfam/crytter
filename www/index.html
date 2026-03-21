@@ -92,7 +92,11 @@
             return;
           }
         }
-        term.write(data);
+        const response = term.write(data);
+        // Send terminal query responses back to PTY (DA1, CPR, etc.)
+        if (response && ws.readyState === WebSocket.OPEN) {
+          ws.send(response);
+        }
       };
 
       ws.onclose = () => {
