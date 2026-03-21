@@ -72,7 +72,7 @@
       const wsPort = params.get('port') || '7777';
       const token = params.get('token') || 'hermytt-test-token';
 
-      // Create a fresh session, then connect WebSocket to it
+      // Create a fresh session (isolated PTY per tab)
       let sessionId = null;
       try {
         const resp = await fetch(`http://${wsHost}:${wsPort}/session`, {
