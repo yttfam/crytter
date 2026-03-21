@@ -60,20 +60,33 @@ test.describe('claude-code in crytter', () => {
     await page.keyboard.type('claude');
     await page.keyboard.press('Enter');
 
-    // Wait for it to start — look for content rendering over time
-    await page.waitForTimeout(10_000);
+    // Wait for the trust folder prompt (~3-5s)
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: 'test-results/claude-trust-prompt.png' });
 
-    // Take a screenshot for debugging
-    await page.screenshot({ path: 'test-results/claude-launch.png' });
+    // Press Enter to accept trust
+    await page.keyboard.press('Enter');
 
-    // Check terminal is still alive (didn't crash/hang)
+    // Wait for claude to fully load the main input prompt (~5s)
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: 'test-results/claude-loaded.png' });
+
+    // Type a short message
+    await page.keyboard.type('say hi');
+    await page.waitForTimeout(500);
+    await page.keyboard.press('Enter');
+
+    // Wait for the response (~15s)
+    await page.waitForTimeout(15000);
+    await page.screenshot({ path: 'test-results/claude-response.png' });
+
+    // Verify terminal is still alive and has content
     const info = await page.evaluate(() =>
       document.getElementById('term-info')?.textContent || ''
     );
     expect(info).toContain('×');
     expect(info).toContain('connected');
 
-    // Check canvas has content
     const hasContent = await page.evaluate(() => {
       const canvas = document.querySelector('#terminal-container canvas');
       if (!canvas) return false;
@@ -88,7 +101,7 @@ test.describe('claude-code in crytter', () => {
     });
     expect(hasContent).toBe(true);
 
-    // Try to quit — Ctrl+C then exit
+    // Ctrl+C to exit claude
     await page.keyboard.press('Control+c');
     await page.waitForTimeout(2000);
   });

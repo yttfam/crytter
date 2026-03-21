@@ -238,6 +238,24 @@ impl Terminal {
         self.wrap_pending = false;
     }
 
+    fn reverse_tab(&mut self) {
+        if self.cursor.col == 0 {
+            return;
+        }
+        let mut col = self.cursor.col - 1;
+        loop {
+            if col < self.tabs.len() && self.tabs[col] {
+                break;
+            }
+            if col == 0 {
+                break;
+            }
+            col -= 1;
+        }
+        self.cursor.col = col;
+        self.wrap_pending = false;
+    }
+
     fn csi(&mut self, params: &[Vec<u16>], intermediates: &[u8], action: char) {
         // Helper to get param with default value, capped to MAX_REPEAT
         let param = |i: usize, default: u16| -> u16 {
@@ -296,6 +314,11 @@ impl Terminal {
         }
 
         match action {
+            // ICH — Insert Characters
+            '@' => {
+                let n = (param(0, 1) as usize).min(MAX_REPEAT);
+                self.insert_chars(n);
+            }
             // CUU — Cursor Up
             'A' => {
                 let n = (param(0, 1) as usize).min(MAX_REPEAT);
@@ -340,13 +363,20 @@ impl Terminal {
                 self.cursor.col = col.saturating_sub(1).min(self.grid.cols().saturating_sub(1));
                 self.wrap_pending = false;
             }
-            // CUP — Cursor Position
+            // CUP — Cursor Position / HVP
             'H' | 'f' => {
                 let row = param(0, 1) as usize;
                 let col = param(1, 1) as usize;
                 self.cursor.row = row.saturating_sub(1).min(self.grid.rows().saturating_sub(1));
                 self.cursor.col = col.saturating_sub(1).min(self.grid.cols().saturating_sub(1));
                 self.wrap_pending = false;
+            }
+            // CHT — Cursor Horizontal Tab (forward N tabs)
+            'I' => {
+                let n = (param(0, 1) as usize).min(MAX_REPEAT);
+                for _ in 0..n {
+                    self.tab();
+                }
             }
             // ED — Erase in Display
             'J' => {
@@ -396,48 +426,28 @@ impl Terminal {
                 let col = self.cursor.col;
                 self.grid.erase_cells(row, col, col + n);
             }
-            // VPA — Vertical Line Position Absolute
-            'd' => {
-                let row = param(0, 1) as usize;
-                self.cursor.row = row.saturating_sub(1).min(self.grid.rows().saturating_sub(1));
-                self.wrap_pending = false;
-            }
-            // SGR — Select Graphic Rendition
-            'm' => self.sgr(params),
-            // DECSTBM — Set Scrolling Region
-            'r' => {
-                let top = param(0, 1) as usize;
-                let bottom = param(1, self.grid.rows() as u16) as usize;
-                let new_top = top.saturating_sub(1).min(self.grid.rows().saturating_sub(1));
-                let new_bottom = bottom.min(self.grid.rows());
-                // Validate: top must be above bottom, region must be at least 2 lines
-                if new_top < new_bottom && new_bottom - new_top >= 2 {
-                    self.scroll_top = new_top;
-                    self.scroll_bottom = new_bottom;
-                }
-                // Cursor goes home regardless
-                self.cursor.row = 0;
-                self.cursor.col = 0;
-                self.wrap_pending = false;
-            }
-            // ICH — Insert Characters
-            '@' => {
+            // CBT — Cursor Backward Tab (backward N tabs)
+            'Z' => {
                 let n = (param(0, 1) as usize).min(MAX_REPEAT);
-                self.insert_chars(n);
-            }
-            // SM — Set Mode
-            'h' => {
-                for p in params {
-                    if p.first().copied() == Some(4) {
-                        self.modes.insert = true;
-                    }
+                for _ in 0..n {
+                    self.reverse_tab();
                 }
             }
-            // RM — Reset Mode
-            'l' => {
-                for p in params {
-                    if p.first().copied() == Some(4) {
-                        self.modes.insert = false;
+            // HPR — Horizontal Position Relative (same as CUF)
+            'a' => {
+                let n = (param(0, 1) as usize).min(MAX_REPEAT);
+                self.cursor.col = (self.cursor.col + n).min(self.grid.cols().saturating_sub(1));
+                self.wrap_pending = false;
+            }
+            // REP — Repeat preceding character
+            'b' => {
+                let n = (param(0, 1) as usize).min(MAX_REPEAT);
+                let row = self.cursor.row;
+                let col = self.cursor.col;
+                if col > 0 && row < self.grid.rows() {
+                    let c = self.grid.cell(row, col.saturating_sub(1)).c;
+                    for _ in 0..n {
+                        self.print(c);
                     }
                 }
             }
@@ -446,15 +456,66 @@ impl Terminal {
                 if intermediates.is_empty() {
                     self.responses.push(b"\x1b[?62;22c".to_vec());
                 }
-                // DA2 (intermediates = '>') is handled in the > block above
             }
+            // VPA — Vertical Line Position Absolute
+            'd' => {
+                let row = param(0, 1) as usize;
+                self.cursor.row = row.saturating_sub(1).min(self.grid.rows().saturating_sub(1));
+                self.wrap_pending = false;
+            }
+            // VPR — Vertical Position Relative (same as CUD)
+            'e' => {
+                let n = (param(0, 1) as usize).min(MAX_REPEAT);
+                self.cursor.row = (self.cursor.row + n).min(self.grid.rows().saturating_sub(1));
+                self.wrap_pending = false;
+            }
+            // TBC — Tab Clear
+            'g' => {
+                let mode = param(0, 0);
+                match mode {
+                    0 => {
+                        // Clear tab at current column
+                        let col = self.cursor.col;
+                        if col < self.tabs.len() {
+                            self.tabs[col] = false;
+                        }
+                    }
+                    3 => {
+                        // Clear all tabs
+                        for t in &mut self.tabs {
+                            *t = false;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            // SM — Set Mode
+            'h' => {
+                for p in params {
+                    match p.first().copied().unwrap_or(0) {
+                        4 => self.modes.insert = true,
+                        20 => {} // LNM — auto newline, acknowledge
+                        _ => {}
+                    }
+                }
+            }
+            // RM — Reset Mode
+            'l' => {
+                for p in params {
+                    match p.first().copied().unwrap_or(0) {
+                        4 => self.modes.insert = false,
+                        20 => {} // LNM
+                        _ => {}
+                    }
+                }
+            }
+            // SGR — Select Graphic Rendition
+            'm' => self.sgr(params),
             // DSR — Device Status Report
             'n' => {
                 let mode = param(0, 0);
                 match mode {
-                    // Status report — respond "OK"
                     5 => self.responses.push(b"\x1b[0n".to_vec()),
-                    // CPR — Cursor Position Report
                     6 => {
                         let row = self.cursor.row + 1;
                         let col = self.cursor.col + 1;
@@ -474,19 +535,45 @@ impl Terminal {
                     _ => crate::cursor::CursorShape::Block,
                 };
             }
+            // DECSTBM — Set Scrolling Region
+            'r' => {
+                let top = param(0, 1) as usize;
+                let bottom = param(1, self.grid.rows() as u16) as usize;
+                let new_top = top.saturating_sub(1).min(self.grid.rows().saturating_sub(1));
+                let new_bottom = bottom.min(self.grid.rows());
+                if new_top < new_bottom && new_bottom - new_top >= 2 {
+                    self.scroll_top = new_top;
+                    self.scroll_bottom = new_bottom;
+                }
+                self.cursor.row = 0;
+                self.cursor.col = 0;
+                self.wrap_pending = false;
+            }
+            // SCOSC — Save Cursor Position (alternative to ESC 7)
+            's' if intermediates.is_empty() => {
+                self.cursor.save();
+            }
             // CSI t — Window manipulation
             't' => {
                 let mode = param(0, 0);
                 match mode {
-                    // Report terminal size in chars
                     18 => {
                         let rows = self.grid.rows();
                         let cols = self.grid.cols();
                         self.responses
                             .push(format!("\x1b[8;{rows};{cols}t").into_bytes());
                     }
+                    // Report cell size in pixels
+                    16 => {
+                        self.responses.push(b"\x1b[6;14;8t".to_vec());
+                    }
                     _ => {}
                 }
+            }
+            // SCORC — Restore Cursor Position (alternative to ESC 8)
+            'u' if intermediates.is_empty() => {
+                self.cursor.restore();
+                self.clamp_cursor();
             }
             _ => {} // Unhandled CSI
         }
@@ -726,15 +813,41 @@ impl Terminal {
 
         let cmd = params[0].as_slice();
         match cmd {
-            // Set window title
-            b"0" | b"2" => {
+            // Set window/icon title
+            b"0" | b"1" | b"2" => {
                 if let Some(title) = params.get(1) {
-                    // Cap title length to prevent unbounded allocation
                     let len = title.len().min(MAX_TITLE_LEN);
                     self.title = String::from_utf8_lossy(&title[..len]).into_owned();
                 }
             }
-            _ => {}
+            // OSC 4 — Set/query color palette (acknowledge, no-op)
+            b"4" => {}
+            // OSC 7 — Set working directory (acknowledge, no-op)
+            b"7" => {}
+            // OSC 8 — Hyperlinks (acknowledge, no-op — rendering later)
+            b"8" => {}
+            // OSC 10 — Set/query foreground color
+            b"10" => {
+                if params.get(1).map_or(false, |p| p == b"?") {
+                    // Query: respond with current fg color
+                    self.responses.push(b"\x1b]10;rgb:d4d4/d4d4/d4d4\x1b\\".to_vec());
+                }
+            }
+            // OSC 11 — Set/query background color
+            b"11" => {
+                if params.get(1).map_or(false, |p| p == b"?") {
+                    self.responses.push(b"\x1b]11;rgb:1e1e/1e1e/1e1e\x1b\\".to_vec());
+                }
+            }
+            // OSC 12 — Set/query cursor color
+            b"12" => {}
+            // OSC 52 — Clipboard (acknowledge, no-op)
+            b"52" => {}
+            // OSC 112 — Reset cursor color (acknowledge)
+            b"112" => {}
+            // OSC 133 — Shell integration / command marks (acknowledge)
+            b"133" => {}
+            _ => {} // Unknown OSC — silently ignore
         }
     }
 
@@ -742,18 +855,28 @@ impl Terminal {
         for p in params {
             match p.first().copied().unwrap_or(0) {
                 1 => self.modes.app_cursor = true,
+                3 => {} // DECCOLM — 132 column mode, acknowledge
+                5 => {} // DECSCNM — reverse video, acknowledge
                 6 => self.modes.origin = true,
                 7 => self.modes.autowrap = true,
-                12 => {} // Cursor blink — acknowledge, no-op
+                12 => {} // Cursor blink
                 25 => self.cursor.visible = true,
                 47 | 1047 => self.switch_alt_screen(true),
-                1004 => {} // Focus reporting — acknowledge, no-op for now
+                66 => self.modes.app_keypad = true,
+                1000 => {} // X10 mouse reporting — acknowledge
+                1002 => {} // Button-event mouse tracking — acknowledge
+                1003 => {} // Any-event mouse tracking — acknowledge
+                1004 => {} // Focus reporting — acknowledge
+                1005 => {} // UTF-8 mouse encoding — acknowledge
+                1006 => {} // SGR mouse encoding — acknowledge
+                1015 => {} // Urxvt mouse encoding — acknowledge
+                1048 => self.cursor.save(),
                 1049 => {
                     self.cursor.save();
                     self.switch_alt_screen(true);
                 }
                 2004 => self.modes.bracket_paste = true,
-                2026 => {} // Synchronized output (DECSYNC) — acknowledge, no-op
+                2026 => {} // Synchronized output
                 _ => {}
             }
         }
@@ -763,12 +886,21 @@ impl Terminal {
         for p in params {
             match p.first().copied().unwrap_or(0) {
                 1 => self.modes.app_cursor = false,
+                3 => {} // DECCOLM
+                5 => {} // DECSCNM
                 6 => self.modes.origin = false,
                 7 => self.modes.autowrap = false,
                 12 => {} // Cursor blink
                 25 => self.cursor.visible = false,
                 47 | 1047 => self.switch_alt_screen(false),
+                66 => self.modes.app_keypad = false,
+                1000 | 1002 | 1003 => {} // Mouse reporting
                 1004 => {} // Focus reporting
+                1005 | 1006 | 1015 => {} // Mouse encoding
+                1048 => {
+                    self.cursor.restore();
+                    self.clamp_cursor();
+                }
                 1049 => {
                     self.switch_alt_screen(false);
                     self.cursor.restore();
