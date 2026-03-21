@@ -15,6 +15,8 @@ pub struct Terminal {
     on_title: Option<js_sys::Function>,
     /// Dirty flag — set when grid changes, cleared after render.
     dirty: bool,
+    /// True when user has explicitly scrolled up. Prevents auto-snap to bottom.
+    user_scrolled: bool,
 }
 
 #[wasm_bindgen]
@@ -29,6 +31,7 @@ impl Terminal {
             renderer: None,
             on_title: None,
             dirty: false,
+            user_scrolled: false,
         }
     }
 
@@ -124,7 +127,7 @@ impl Terminal {
 
     /// Handle a keyboard event. Returns escape sequence or null.
     #[wasm_bindgen(js_name = "handleKeyEvent")]
-    pub fn handle_key_event(&self, event: &web_sys::KeyboardEvent) -> Option<String> {
+    pub fn handle_key_event(&mut self, event: &web_sys::KeyboardEvent) -> Option<String> {
         let key = event.key();
         let ctrl = event.ctrl_key();
         let alt = event.alt_key();
@@ -136,8 +139,15 @@ impl Terminal {
 
         let app_cursor = self.grid.modes().app_cursor;
 
-        encode_key(&key, ctrl, alt, shift, app_cursor)
-            .map(|bytes| bytes.iter().map(|&b| char::from(b)).collect())
+        let result = encode_key(&key, ctrl, alt, shift, app_cursor)
+            .map(|bytes| bytes.iter().map(|&b| char::from(b)).collect());
+
+        // User is typing — snap to live view
+        if result.is_some() && self.user_scrolled {
+            self.scroll_to_bottom();
+        }
+
+        result
     }
 
     /// Render if dirty. Call this from requestAnimationFrame.
@@ -149,7 +159,10 @@ impl Terminal {
         self.dirty = false;
 
         if let Some(ref mut renderer) = self.renderer {
-            renderer.scroll_to_bottom();
+            // Only snap to bottom if user hasn't explicitly scrolled
+            if !self.user_scrolled {
+                renderer.scroll_to_bottom();
+            }
             renderer.draw(&self.grid);
         }
         true
@@ -200,15 +213,19 @@ impl Terminal {
         if let Some(ref mut renderer) = self.renderer {
             let max = self.grid.grid().scrollback_len();
             renderer.scroll_up(lines, max);
-            renderer.draw(&self.grid);
+            self.user_scrolled = true;
+            self.dirty = true;
         }
     }
 
     #[wasm_bindgen(js_name = "scrollDown")]
     pub fn scroll_down(&mut self, lines: usize) {
         if let Some(ref mut renderer) = self.renderer {
-            renderer.scroll_down(lines);
-            renderer.draw(&self.grid);
+            let offset = renderer.scroll_down(lines);
+            if offset == 0 {
+                self.user_scrolled = false;
+            }
+            self.dirty = true;
         }
     }
 
@@ -216,8 +233,9 @@ impl Terminal {
     pub fn scroll_to_bottom(&mut self) {
         if let Some(ref mut renderer) = self.renderer {
             renderer.scroll_to_bottom();
-            renderer.draw(&self.grid);
         }
+        self.user_scrolled = false;
+        self.dirty = true;
     }
 
     #[wasm_bindgen(getter, js_name = "isScrolled")]
