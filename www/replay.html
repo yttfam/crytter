@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>crytter — replay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      font-family: system-ui, sans-serif;
+    }
+    header {
+      background: #2d2d2d;
+      color: #888;
+      padding: 8px 16px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #3d3d3d;
+      user-select: none;
+    }
+    header .title { color: #d4d4d4; font-weight: 600; }
+    header .controls { display: flex; gap: 12px; align-items: center; }
+    header button {
+      background: #3d3d3d;
+      color: #d4d4d4;
+      border: 1px solid #555;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    header button:hover { background: #4d4d4d; }
+    header select {
+      background: #3d3d3d;
+      color: #d4d4d4;
+      border: 1px solid #555;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    #terminal-container {
+      flex: 1;
+      overflow: hidden;
+      cursor: text;
+    }
+    #progress {
+      height: 3px;
+      background: #3d3d3d;
+    }
+    #progress-bar {
+      height: 100%;
+      background: #4fc3f7;
+      width: 0%;
+      transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="title" id="tab-title">crytter replay</span>
+    <div class="controls">
+      <span id="status">loading...</span>
+      <select id="speed">
+        <option value="0">instant</option>
+        <option value="0.25">0.25x</option>
+        <option value="0.5">0.5x</option>
+        <option value="1" selected>1x</option>
+        <option value="2">2x</option>
+        <option value="5">5x</option>
+        <option value="10">10x</option>
+      </select>
+      <button id="btn-play">Play</button>
+      <button id="btn-reset">Reset</button>
+    </div>
+  </header>
+  <div id="progress"><div id="progress-bar"></div></div>
+  <div id="terminal-container"></div>
+
+  <script type="module">
+    import init, { Terminal } from '/pkg/crytter_wasm.js';
+
+    let term, recording, playing = false, abortCtrl;
+
+    async function setup() {
+      await init();
+
+      const container = document.getElementById('terminal-container');
+      term = new Terminal();
+      term.open(container);
+
+      function renderLoop() {
+        term.render();
+        requestAnimationFrame(renderLoop);
+      }
+      requestAnimationFrame(renderLoop);
+
+      term.onTitleChange((title) => {
+        document.getElementById('tab-title').textContent = title;
+      });
+
+      // Load fixture
+      try {
+        const resp = await fetch('/tests/fixtures/claude-session.json');
+        recording = await resp.json();
+        term.resize(recording.cols, recording.rows);
+        document.getElementById('status').textContent =
+          `${recording.events.length} events · ${recording.cols}×${recording.rows}`;
+      } catch (e) {
+        document.getElementById('status').textContent = 'no fixture found';
+        return;
+      }
+
+      document.getElementById('btn-play').onclick = play;
+      document.getElementById('btn-reset').onclick = reset;
+    }
+
+    function reset() {
+      if (abortCtrl) abortCtrl.abort();
+      playing = false;
+      term.reset();
+      if (recording) term.resize(recording.cols, recording.rows);
+      document.getElementById('progress-bar').style.width = '0%';
+      document.getElementById('btn-play').textContent = 'Play';
+      document.getElementById('tab-title').textContent = 'crytter replay';
+    }
+
+    async function play() {
+      if (playing) {
+        if (abortCtrl) abortCtrl.abort();
+        playing = false;
+        document.getElementById('btn-play').textContent = 'Play';
+        return;
+      }
+
+      if (!recording) return;
+      reset();
+
+      playing = true;
+      abortCtrl = new AbortController();
+      document.getElementById('btn-play').textContent = 'Pause';
+
+      const speed = parseFloat(document.getElementById('speed').value);
+      const outputs = recording.events.filter(e => e.type === 'output');
+      const total = outputs.length;
+      let lastT = outputs[0]?.t || 0;
+
+      for (let i = 0; i < total; i++) {
+        if (abortCtrl.signal.aborted) break;
+
+        const event = outputs[i];
+
+        if (speed > 0) {
+          const delay = (event.t - lastT) / speed;
+          if (delay > 1) {
+            await new Promise((resolve, reject) => {
+              const timer = setTimeout(resolve, delay);
+              abortCtrl.signal.addEventListener('abort', () => {
+                clearTimeout(timer);
+                resolve();
+              }, { once: true });
+            });
+          }
+        }
+
+        term.write(event.data);
+        lastT = event.t;
+
+        // Update progress
+        document.getElementById('progress-bar').style.width =
+          `${((i + 1) / total * 100).toFixed(1)}%`;
+      }
+
+      playing = false;
+      document.getElementById('btn-play').textContent = 'Play';
+    }
+
+    setup().catch(console.error);
+  </script>
+</body>
+</html>
