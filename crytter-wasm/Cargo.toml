@@ -27,6 +27,8 @@ web-sys = { workspace = true, features = [
     "FocusEvent",
     "EventTarget",
     "AddEventListenerOptions",
+    "Navigator",
+    "Clipboard",
 ] }
 js-sys = { workspace = true }
 log = { workspace = true }

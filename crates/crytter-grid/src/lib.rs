@@ -7,6 +7,7 @@ mod attr;
 mod cell;
 mod cursor;
 mod grid;
+pub mod selection;
 mod term;
 
 pub use attr::{Attr, Color};

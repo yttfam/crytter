@@ -2,6 +2,7 @@ use wasm_bindgen::JsCast;
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement};
 
 use crytter_grid::{Cell, Cursor, Terminal};
+use crytter_grid::selection::Selection;
 
 use crate::palette::{ColorCache, Theme};
 
@@ -122,13 +123,29 @@ impl Renderer {
         self.scroll_offset = 0;
     }
 
-    /// Full render of the terminal grid with scrollback support.
-    /// `cursor_phase` controls blink — true=visible, false=hidden.
     pub fn draw(&mut self, terminal: &Terminal) {
-        self.draw_with_cursor(terminal, true);
+        self.draw_full(terminal, true, None);
     }
 
     pub fn draw_with_cursor(&mut self, terminal: &Terminal, cursor_phase: bool) {
+        self.draw_full(terminal, cursor_phase, None);
+    }
+
+    pub fn draw_with_selection(
+        &mut self,
+        terminal: &Terminal,
+        cursor_phase: bool,
+        selection: Option<&Selection>,
+    ) {
+        self.draw_full(terminal, cursor_phase, selection);
+    }
+
+    fn draw_full(
+        &mut self,
+        terminal: &Terminal,
+        cursor_phase: bool,
+        selection: Option<&Selection>,
+    ) {
         let grid = terminal.grid();
         let cursor = terminal.cursor();
         let rows = grid.rows();
@@ -185,6 +202,28 @@ impl Renderer {
             }
 
             self.draw_scroll_indicator(self.scroll_offset, scrollback_len);
+        }
+
+        // Selection overlay
+        if let Some(sel) = selection {
+            self.draw_selection(sel, rows, cols);
+        }
+    }
+
+    /// Draw selection highlight overlay.
+    fn draw_selection(&self, selection: &Selection, rows: usize, cols: usize) {
+        if !selection.is_active() {
+            return;
+        }
+        self.ctx.set_fill_style_str(&self.theme.selection_bg);
+        for row in 0..rows {
+            for col in 0..cols {
+                if selection.contains(row, col) {
+                    let x = col as f64 * self.cell_width;
+                    let y = row as f64 * self.cell_height;
+                    self.ctx.fill_rect(x, y, self.cell_width, self.cell_height);
+                }
+            }
         }
     }
 
@@ -319,6 +358,15 @@ impl Renderer {
 
         self.ctx.set_fill_style_str("#d4d4d4");
         self.ctx.fill_text(&text, x + padding, self.baseline_offset).unwrap();
+    }
+
+    /// Convert pixel coordinates to grid (row, col).
+    pub fn pixel_to_grid(&self, px_x: f64, px_y: f64) -> (usize, usize) {
+        let cw = if self.cell_width > 0.0 { self.cell_width } else { 8.0 };
+        let ch = if self.cell_height > 0.0 { self.cell_height } else { 16.0 };
+        let col = (px_x / cw).floor().max(0.0) as usize;
+        let row = (px_y / ch).floor().max(0.0) as usize;
+        (row, col)
     }
 
     pub fn set_theme(&mut self, theme: Theme) {

@@ -2,6 +2,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
 use crytter_grid::Terminal as GridTerminal;
+use crytter_grid::selection::Selection;
 use crytter_input::encode_key;
 use crytter_render::{Renderer, Theme};
 use crytter_vte::Parser;
@@ -18,6 +19,7 @@ pub struct Terminal {
     cursor_visible_phase: bool,
     font_family: String,
     font_size: f64,
+    selection: Selection,
 }
 
 #[wasm_bindgen]
@@ -36,6 +38,7 @@ impl Terminal {
             cursor_visible_phase: true,
             font_family,
             font_size,
+            selection: Selection::new(),
         }
     }
 
@@ -172,7 +175,12 @@ impl Terminal {
             if !self.user_scrolled {
                 renderer.scroll_to_bottom();
             }
-            renderer.draw_with_cursor(&self.grid, self.cursor_visible_phase);
+            let sel = if self.selection.is_active() {
+                Some(&self.selection)
+            } else {
+                None
+            };
+            renderer.draw_with_selection(&self.grid, self.cursor_visible_phase, sel);
         }
         true
     }
@@ -276,6 +284,82 @@ impl Terminal {
         }
         self.user_scrolled = false;
         self.dirty = true;
+    }
+
+    /// Handle mousedown — start selection.
+    #[wasm_bindgen(js_name = "mouseDown")]
+    pub fn mouse_down(&mut self, x: f64, y: f64) {
+        if let Some(ref renderer) = self.renderer {
+            let (row, col) = renderer.pixel_to_grid(x, y);
+            self.selection.start(row, col);
+            self.dirty = true;
+        }
+    }
+
+    /// Handle mousemove while button held — extend selection.
+    #[wasm_bindgen(js_name = "mouseMove")]
+    pub fn mouse_move(&mut self, x: f64, y: f64) {
+        if let Some(ref renderer) = self.renderer {
+            let (row, col) = renderer.pixel_to_grid(x, y);
+            self.selection.update(row, col);
+            self.dirty = true;
+        }
+    }
+
+    /// Handle mouseup — finalize selection.
+    #[wasm_bindgen(js_name = "mouseUp")]
+    pub fn mouse_up(&mut self) {
+        // Selection stays active until cleared by click or new selection
+    }
+
+    /// Get the selected text content.
+    #[wasm_bindgen(js_name = "getSelection")]
+    pub fn get_selection(&self) -> Option<String> {
+        let (sr, sc, er, ec) = self.selection.range()?;
+        let grid = self.grid.grid();
+        let cols = self.grid.cols();
+        let mut text = String::new();
+
+        for row in sr..=er {
+            let start_col = if row == sr { sc } else { 0 };
+            let end_col = if row == er { ec } else { cols };
+
+            for col in start_col..end_col {
+                let cell = grid.cell(row, col);
+                if cell.width > 0 {
+                    text.push(cell.c);
+                }
+            }
+
+            // Trim trailing spaces on each line
+            let trimmed_len = text.trim_end_matches(' ').len();
+            text.truncate(trimmed_len);
+
+            if row < er {
+                text.push('\n');
+            }
+        }
+
+        if text.is_empty() { None } else { Some(text) }
+    }
+
+    /// Copy selection to clipboard. Call from JS.
+    #[wasm_bindgen(js_name = "copySelection")]
+    pub fn copy_selection(&self) -> Option<String> {
+        self.get_selection()
+    }
+
+    /// Clear selection.
+    #[wasm_bindgen(js_name = "clearSelection")]
+    pub fn clear_selection(&mut self) {
+        self.selection.clear();
+        self.dirty = true;
+    }
+
+    /// Whether there's an active selection.
+    #[wasm_bindgen(getter, js_name = "hasSelection")]
+    pub fn has_selection(&self) -> bool {
+        self.selection.is_active()
     }
 
     #[wasm_bindgen(getter, js_name = "isScrolled")]

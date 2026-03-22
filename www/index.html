@@ -135,6 +135,40 @@
         }
       });
 
+      // Selection — mouse events
+      let mouseDown = false;
+      container.addEventListener('mousedown', (e) => {
+        const rect = container.querySelector('canvas').getBoundingClientRect();
+        term.mouseDown(e.clientX - rect.left, e.clientY - rect.top);
+        mouseDown = true;
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!mouseDown) return;
+        const rect = container.querySelector('canvas').getBoundingClientRect();
+        term.mouseMove(e.clientX - rect.left, e.clientY - rect.top);
+      });
+      document.addEventListener('mouseup', () => {
+        if (!mouseDown) return;
+        mouseDown = false;
+        term.mouseUp();
+        // Auto-copy to clipboard
+        const text = term.getSelection();
+        if (text) {
+          navigator.clipboard.writeText(text).catch(() => {});
+        }
+      });
+
+      // Cmd+C / Ctrl+C with selection = copy, without = send Ctrl+C
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'c' && term.hasSelection) {
+          e.preventDefault();
+          const text = term.copySelection();
+          if (text) navigator.clipboard.writeText(text).catch(() => {});
+          term.clearSelection();
+          return;
+        }
+      }, true); // capture phase — before the main keydown handler
+
       // Scroll
       container.addEventListener('wheel', (e) => {
         e.preventDefault();
