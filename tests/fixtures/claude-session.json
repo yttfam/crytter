@@ -1,0 +1,945 @@
+{
+  "cols": 94,
+  "rows": 23,
+  "events": [
+    {
+      "t": 7,
+      "type": "auth"
+    },
+    {
+      "t": 30,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2J\u001b[3J\u001b[H\u001b[38;5;174m ▐\u001b[48;5;16m▛███▜\u001b[49m▌\u001b[3C\u001b[39m\u001b[1mClaude\u001b[1CCode\u001b[1C\u001b[22m\u001b[38;5;246mv2.1.81\u001b[39m\r\r\n\u001b[38;5;174m▝▜\u001b[48;5;16m█████\u001b[49m▛▘\u001b[2C\u001b[38;5;246mOpus\u001b[1C4.6\u001b[1C(1M\u001b[1Ccontext)\u001b[1C·\u001b[1CClaude\u001b[1CMax\u001b[39m\r\r\n\u001b[38;5;174m \u001b[1C▘▘\u001b[1C▝▝\u001b[4C\u001b[38;5;246m/Users/cali\u001b[39m\r\r\n\r\r\n\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHello\u001b[39m                                                                                       \u001b[49m\r\r\n\r\r\n\u001b[38;5;231m⏺\u001b[1C\u001b[39mHello!\u001b[1CHow\u001b[1Ccan\u001b[1CI\u001b[1Chelp\u001b[1Cyou\u001b[1Ctoday?\r\r\n\r\r\n\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHow are you?\u001b[39m                                                                                \u001b[49m\r\r\n\r\r\n\u001b[38;5;231m⏺\u001b[1C\u001b[39mDoing\u001b[1Cwell,\u001b[1Cthanks!\u001b[1CWhat\u001b[1Ccan\u001b[1CI\u001b[1Chelp\u001b[1Cyou\u001b[1Cwith?\r\r\n\r\r\n\u001b[38;5;244m─────────────────────────────────────────────────────────────────────────"
+    },
+    {
+      "t": 32,
+      "type": "output",
+      "data": "─────────────────────\u001b[39m\r\r\n❯ \u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246m?\u001b[1Cfor\u001b[1Cshortcuts\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1012,
+      "type": "input",
+      "data": "c"
+    },
+    {
+      "t": 1015,
+      "type": "input",
+      "data": "l"
+    },
+    {
+      "t": 1017,
+      "type": "input",
+      "data": "a"
+    },
+    {
+      "t": 1019,
+      "type": "input",
+      "data": "u"
+    },
+    {
+      "t": 1021,
+      "type": "input",
+      "data": "d"
+    },
+    {
+      "t": 1022,
+      "type": "input",
+      "data": "e"
+    },
+    {
+      "t": 1024,
+      "type": "input",
+      "data": "\r"
+    },
+    {
+      "t": 1028,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[G\u001b[1A\r\u001b[2C\u001b[2Ac\u001b[7m \r\u001b[2B\u001b[27m                                                                                              \r\u001b[?2026l"
+    },
+    {
+      "t": 1052,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3A\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mclaude\u001b[39m                                                                                      \r\u001b[1B\u001b[49m    \r\u001b[1B\u001b[38;5;174m✳\u001b[39m \u001b[38;5;174mGus\u001b[38;5;216mtin\u001b[38;5;174mg… \u001b[39m                                                                                   \r\r\n\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1053,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 1109,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[4Cti\u001b[1C\u001b[38;5;216mg…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1161,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[7C\u001b[6A\u001b[38;5;174mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1224,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[8C\u001b[6A\u001b[38;5;174mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1273,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[8C…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1382,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1595,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1755,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1873,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 1980,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2015,
+      "type": "output",
+      "data": "\u001b]0;⠐ New coding session\u0007"
+    },
+    {
+      "t": 2101,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2160,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;216mG\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2219,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3C\u001b[6A\u001b[38;5;216mu\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2270,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[4C\u001b[6A\u001b[38;5;216ms\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2321,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[1CG\u001b[2C\u001b[38;5;216mt\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2381,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3C\u001b[6A\u001b[38;5;174mu\u001b[2C\u001b[38;5;216mi\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2442,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[3Cs\u001b[2C\u001b[38;5;216mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2502,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[5C\u001b[6A\u001b[38;5;174mt\u001b[2C\u001b[38;5;216mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2552,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[5Ci\u001b[2C\u001b[38;5;216m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2604,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[7C\u001b[6A\u001b[38;5;174mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2661,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[8C\u001b[6A\u001b[38;5;174mg…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2722,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2827,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2975,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;249m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 2975,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 3057,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3172,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[10C\u001b[38;5;248m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3273,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3387,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;247m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3438,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3543,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3596,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;246m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3757,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[8C\u001b[38;5;216m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3918,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[7C\u001b[38;5;216mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 3936,
+      "type": "output",
+      "data": "\u001b]0;⠐ New coding session\u0007"
+    },
+    {
+      "t": 4025,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4083,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[8C\u001b[6A\u001b[38;5;174mg…\u001b[1C\u001b[38;5;247m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4139,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4198,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[7C\u001b[6A\u001b[38;5;216mng…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4261,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4319,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6C\u001b[6A\u001b[38;5;216mi\u001b[2C\u001b[38;5;174m…\u001b[1C\u001b[38;5;248m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4487,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[10C\u001b[38;5;249m(thinking)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4549,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[5C\u001b[6A\u001b[38;5;216mt\u001b[2C\u001b[38;5;174mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4613,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4737,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[3C\u001b[38;5;216ms\u001b[2C\u001b[38;5;174mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4840,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4897,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 4919,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;231m⏺\u001b[1C\u001b[39mWhat about Claude? Are\u001b[1Cyou\u001b[1Clooking\u001b[1Cfor\u001b[1Chelp\u001b[1Cwith\u001b[1Csomething\u001b[1Cspecific\u001b[1C—\u001b[1CClaude\u001b[1CCode,\u001b[1Cthe\r\u001b[2C\u001b[1BClaude\u001b[1CAPI,\u001b[1Cor\u001b[1Csomething\u001b[1Celse?\r\u001b[1B                                                                                              \r\u001b[1B\u001b[38;5;174m✢\u001b[39m \u001b[38;5;174mGu\u001b[38;5;216msti\u001b[38;5;174mng… \u001b[38;5;249m(thinking)\r\u001b[1B\u001b[39m                                                                                              \r\u001b[1B\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m─────────────────────────────────────────────────────────�"
+    },
+    {
+      "t": 4920,
+      "type": "output",
+      "data": "��────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4944,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[4C\u001b[6A\u001b[38;5;174msti\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4961,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[10C\u001b[38;5;246m(running stop hooks… 0/2 · \u001b[38;5;249mthinking\u001b[38;5;246m)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4979,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[32C\u001b[6A\u001b[38;5;246m1\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 4983,
+      "type": "output",
+      "data": "\u001b]0;✳ New coding session\u0007"
+    },
+    {
+      "t": 5000,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2J\u001b[3J\u001b[H\u001b[38;5;174m ▐\u001b[48;5;16m▛███▜\u001b[49m▌\u001b[3C\u001b[39m\u001b[1mClaude\u001b[1CCode\u001b[1C\u001b[22m\u001b[38;5;246mv2.1.81\u001b[39m\r\r\n\u001b[38;5;174m▝▜\u001b[48;5;16m█████\u001b[49m▛▘\u001b[2C\u001b[38;5;246mOpus\u001b[1C4.6\u001b[1C(1M\u001b[1Ccontext)\u001b[1C·\u001b[1CClaude\u001b[1CMax\u001b[39m\r\r\n\u001b[38;5;174m \u001b[1C▘▘\u001b[1C▝▝\u001b[4C\u001b[38;5;246m/Users/cali\u001b[39m\r\r\n\r\r\n\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHello\u001b[39m                                                                                       \u001b[49m\r\r\n\r\r\n\u001b[38;5;231m⏺\u001b[1C\u001b[39mHello!\u001b[1CHow\u001b[1Ccan\u001b[1CI\u001b[1Chelp\u001b[1Cyou\u001b[1Ctoday?\r\r\n\r\r\n\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHow are you?\u001b[39m                                                                                \u001b[49m\r\r\n\r\r\n\u001b[38;5;231m⏺\u001b[1C\u001b[39mDoing\u001b[1Cwell,\u001b[1Cthanks!\u001b[1CWhat\u001b[1Ccan\u001b[1CI\u001b[1Chelp\u001b[1Cyou\u001b[1Cwith?\r\r\n\r\r\n\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mclaude\u001b[39m                                                                                      \u001b[49m\r\r\n\r\r\n\u001b[38;5;231m⏺\u001b[1C\u001b[39mWhat\u001b[1Cabout\u001b[1CClaude?\u001b[1CAre\u001b[1Cyou\u001b[1Clooking\u001b[1Cfor\u001b[1Che"
+    },
+    {
+      "t": 5000,
+      "type": "output",
+      "data": "lp\u001b[1Cwith\u001b[1Csomething\u001b[1Cspecific\u001b[1C—\u001b[1CClaude\u001b[1CCode,\u001b[1Cthe\r\r\n\u001b[2CClaude\u001b[1CAPI,\u001b[1Cor\u001b[1Csomething\u001b[1Celse?\r\r\n\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n❯ \u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246m?\u001b[1Cfor\u001b[1Cshortcuts\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 7030,
+      "type": "input",
+      "data": "1"
+    },
+    {
+      "t": 7044,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[G\u001b[1A\r\u001b[2C\u001b[2A1\u001b[7m \r\u001b[2B\u001b[27m                                                                                              \r\u001b[?2026l"
+    },
+    {
+      "t": 7534,
+      "type": "input",
+      "data": "\r"
+    },
+    {
+      "t": 7568,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3A\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231m1\u001b[39m                                                                                           \r\u001b[1B\u001b[49m    \r\u001b[1B\u001b[38;5;174m✶\u001b[39m \u001b[38;5;174mGesticulating… \u001b[39m                                                                             \r\r\n\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 7568,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 7625,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 7748,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 7871,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8106,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8170,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;216mG\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8226,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[2C\u001b[38;5;216me\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8286,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[4C\u001b[6A\u001b[38;5;216ms\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8351,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[1CG\u001b[2C\u001b[38;5;216mt\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8412,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3C\u001b[6A\u001b[38;5;174mes\u001b[1C\u001b[38;5;216mic\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8469,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[4Ct\u001b[2C\u001b[38;5;216mu\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8532,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6C\u001b[6A\u001b[38;5;174mi\u001b[2C\u001b[38;5;216ml\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8532,
+      "type": "output",
+      "data": "\u001b]0;⠐ New coding session\u0007"
+    },
+    {
+      "t": 8594,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[6Cc\u001b[2C\u001b[38;5;216ma\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8655,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[8C\u001b[6A\u001b[38;5;174mu\u001b[2C\u001b[38;5;216mt\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8712,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[9C\u001b[6A\u001b[38;5;174mla\u001b[1C\u001b[38;5;216min\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8773,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;174mt\u001b[2C\u001b[38;5;216mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8832,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[11Ci\u001b[2C\u001b[38;5;216m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8895,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[13C\u001b[6A\u001b[38;5;174mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 8955,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[13Cg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 9007,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[15C\u001b[6A\u001b[38;5;174m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 9069,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 9187,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 9301,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 9494,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 9534,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;231m⏺\u001b[1C\u001b[39m               \r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 10058,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6ANot\u001b[1Csure\u001b[1Cwhat\u001b[1Cyou're\u001b[1Clooking\u001b[1Cfor\u001b[1C—\u001b[1Ccould\u001b[1Cyou\u001b[1Cgive\u001b[1Cme\u001b[1Ca\u001b[1Cbit\u001b[1Cmore\u001b[1Ccontext?\u001b[1CHappy\u001b[1Cto\u001b[1Chelp\u001b[1Cwith\r\u001b[2C\u001b[1Bwhatever\u001b[1Cyou\u001b[1Cneed.\r\u001b[1B                                                                                              \r\u001b[1B\u001b[38;5;174m✽\u001b[39m \u001b[38;5;174mFlu\u001b[38;5;216mtte\u001b[38;5;174mring… \r\u001b[1B\u001b[39m                                                                                              \r\u001b[1B\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m───────────────────────────────────────────────────────────────────"
+    },
+    {
+      "t": 10059,
+      "type": "output",
+      "data": "───────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 10088,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;216mFlu\u001b[3Cring…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 10108,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[14C\u001b[6A\u001b[38;5;246m(running stop hooks… 0/2)\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 10112,
+      "type": "output",
+      "data": "\u001b]0;✳ New coding session\u0007"
+    },
+    {
+      "t": 10134,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[1A\r\u001b[4A\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\r\u001b[1B\u001b[39m❯ \u001b[7m \r\u001b[2B\u001b[27m  \u001b[38;5;246m? for shortcuts\r\u001b[1B\u001b[39m                                                                                              \r\u001b[1B                                                                                              \r\u001b[1A\u001b[?2026l"
+    },
+    {
+      "t": 15541,
+      "type": "input",
+      "data": "H"
+    },
+    {
+      "t": 15543,
+      "type": "input",
+      "data": "e"
+    },
+    {
+      "t": 15545,
+      "type": "input",
+      "data": "l"
+    },
+    {
+      "t": 15547,
+      "type": "input",
+      "data": "l"
+    },
+    {
+      "t": 15549,
+      "type": "input",
+      "data": "o"
+    },
+    {
+      "t": 15549,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[G\u001b[1A\r\u001b[2C\u001b[2AH\u001b[7m \r\u001b[2B\u001b[27m                                                                                              \r\u001b[?2026l"
+    },
+    {
+      "t": 15551,
+      "type": "input",
+      "data": "\r"
+    },
+    {
+      "t": 15569,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3A\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHello\u001b[39m                                                                                       \r\u001b[1B\u001b[49m    \r\u001b[1B\u001b[38;5;174m✶\u001b[39m \u001b[38;5;174mRuminating… \u001b[39m                                                                                \r\r\n\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 15569,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 15687,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 15796,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16011,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16129,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16233,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16285,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;216mR\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16349,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3C\u001b[6A\u001b[38;5;216mu\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16410,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[1CR\u001b[1C\u001b[38;5;216mmi\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16471,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3C\u001b[6A\u001b[38;5;174mu\u001b[2C\u001b[38;5;216mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16530,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[3Cm\u001b[2C\u001b[38;5;216ma\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16530,
+      "type": "output",
+      "data": "\u001b]0;⠐ New coding session\u0007"
+    },
+    {
+      "t": 16589,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[5C\u001b[6A\u001b[38;5;174mi\u001b[2C\u001b[38;5;216mt\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16658,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6C\u001b[6A\u001b[38;5;174mn\u001b[2C\u001b[38;5;216mi\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16711,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[6Cat\u001b[1C\u001b[38;5;216mng\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16780,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[9C\u001b[6A\u001b[38;5;174mi\u001b[2C\u001b[38;5;216m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16829,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[9Cn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16891,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;174mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 16953,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[11C…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 17070,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 17195,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 17417,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;231m⏺\u001b[1C\u001b[39m            \r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 17493,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 17702,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6AHey!\u001b[1CWhat\u001b[1Ccan\u001b[1CI\u001b[1Chelp\u001b[1Cyou\u001b[1Cwith\u001b[1Ctoday?\r\u001b[2B\u001b[38;5;174m✳\u001b[39m \u001b[38;5;216mIncubating…\u001b[38;5;174m \u001b[38;5;246m(running stop hooks… 0/2)\u001b[39m                                                       \r\u001b[1B   \r\u001b[2B\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m               \r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 17731,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[1A\r\u001b[4A\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\r\u001b[1B\u001b[39m❯ \u001b[7m \r\u001b[2B\u001b[27m  \u001b[38;5;246m? for shortcuts\r\u001b[1B\u001b[39m                                                                                              \r\u001b[1B                                                                                              \r\u001b[1A\u001b[?2026l"
+    },
+    {
+      "t": 17731,
+      "type": "output",
+      "data": "\u001b]0;✳ New coding session\u0007"
+    },
+    {
+      "t": 35556,
+      "type": "input",
+      "data": "H"
+    },
+    {
+      "t": 35558,
+      "type": "input",
+      "data": "o"
+    },
+    {
+      "t": 35560,
+      "type": "input",
+      "data": "w"
+    },
+    {
+      "t": 35561,
+      "type": "input",
+      "data": " "
+    },
+    {
+      "t": 35563,
+      "type": "input",
+      "data": "a"
+    },
+    {
+      "t": 35565,
+      "type": "input",
+      "data": "r"
+    },
+    {
+      "t": 35566,
+      "type": "input",
+      "data": "e"
+    },
+    {
+      "t": 35568,
+      "type": "input",
+      "data": " "
+    },
+    {
+      "t": 35569,
+      "type": "input",
+      "data": "y"
+    },
+    {
+      "t": 35570,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[G\u001b[1A\r\u001b[2C\u001b[2AH\u001b[7m \r\u001b[2B\u001b[27m                                                                                              \r\u001b[?2026l"
+    },
+    {
+      "t": 35571,
+      "type": "input",
+      "data": "o"
+    },
+    {
+      "t": 35572,
+      "type": "input",
+      "data": "u"
+    },
+    {
+      "t": 35573,
+      "type": "input",
+      "data": "?"
+    },
+    {
+      "t": 35575,
+      "type": "input",
+      "data": "\r"
+    },
+    {
+      "t": 35598,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[3A\u001b[48;5;237m\u001b[38;5;239m❯ \u001b[38;5;231mHow are you?\u001b[39m                                                                                \r\u001b[1B\u001b[49m    \r\u001b[1B\u001b[38;5;174m✳\u001b[39m \u001b[38;5;174mCaramelizing… \u001b[39m                                                                              \r\r\n\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m\r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 35598,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 35714,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 35825,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 35931,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36156,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36218,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;216mC\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36278,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[2C\u001b[38;5;216ma\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36331,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[4C\u001b[6A\u001b[38;5;216mr\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36381,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6A\u001b[38;5;174mC\u001b[2C\u001b[38;5;216ma\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36447,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[2Ca\u001b[2C\u001b[38;5;216mm\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36498,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[4C\u001b[6A\u001b[38;5;174mr\u001b[2C\u001b[38;5;216me\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36551,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[4Ca\u001b[2C\u001b[38;5;216ml\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36560,
+      "type": "output",
+      "data": "\u001b]0;⠐ New coding session\u0007"
+    },
+    {
+      "t": 36609,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6C\u001b[6A\u001b[38;5;174mme\u001b[1C\u001b[38;5;216miz\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36670,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m·\u001b[7Cl\u001b[2C\u001b[38;5;216mi\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36719,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[9C\u001b[6A\u001b[38;5;174mi\u001b[2C\u001b[38;5;216mn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36774,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[10C\u001b[6A\u001b[38;5;174mz\u001b[2C\u001b[38;5;216mg\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36836,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[11C\u001b[6A\u001b[38;5;174mi\u001b[2C\u001b[38;5;216m…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36897,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✢\u001b[11Cn\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 36958,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[13C\u001b[6A\u001b[38;5;174mg…\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37013,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37127,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37234,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37400,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✽\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37524,
+      "type": "output",
+      "data": "\u001b]0;⠂ New coding session\u0007"
+    },
+    {
+      "t": 37620,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✻\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37727,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✶\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37833,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;174m✳\u001b[39m\r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37866,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[6A\u001b[38;5;231m⏺\u001b[1C\u001b[39m              \r\r\n\r\n\r\n\r\n\r\n\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37893,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[6ADoing\u001b[1Cgreat!\u001b[1CReady\u001b[1Cto\u001b[1Chelp\u001b[1Cwhenever\u001b[1Cyou\u001b[1Cneed\u001b[1Csomething.\u001b[1CWhat's\u001b[1Cup?\r\u001b[2B\u001b[38;5;174m✳\u001b[39m \u001b[38;5;216mFlowing…\u001b[38;5;174m \u001b[38;5;246m(running stop hooks… 0/2)\u001b[39m                                                          \r\u001b[1B   \r\u001b[2B\u001b[38;5;246m❯ \u001b[39m\u001b[7m \u001b[27m               \r\r\n\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\u001b[39m\r\r\n\u001b[2C\u001b[38;5;246mesc\u001b[1Cto\u001b[1Cinterrupt\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 37910,
+      "type": "output",
+      "data": "\u001b[?2026h\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[1A\r\u001b[4A\u001b[38;5;244m──────────────────────────────────────────────────────────────────────────────────────────────\r\u001b[1B\u001b[39m❯ \u001b[7m \r\u001b[2B\u001b[27m  \u001b[38;5;246m? for shortcuts\r\u001b[1B\u001b[39m                                                                                              \r\u001b[1B                                                                                              \r\u001b[1A\u001b[?2026l"
+    },
+    {
+      "t": 37910,
+      "type": "output",
+      "data": "\u001b]0;✳ New coding session\u0007"
+    },
+    {
+      "t": 55581,
+      "type": "input",
+      "data": "\u0003"
+    },
+    {
+      "t": 55587,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[1A\u001b[38;5;246mPress\u001b[1CCtrl-C again to exit\u001b[39m\r\r\n\u001b[?2026l"
+    },
+    {
+      "t": 56391,
+      "type": "output",
+      "data": "\u001b[?2026h\r\u001b[2C\u001b[1A\u001b[38;5;246m? for\u001b[1Cshortcuts\u001b[39m           \r\r\n\u001b[?2026l"
+    }
+  ]
+}
