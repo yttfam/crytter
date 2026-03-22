@@ -137,9 +137,13 @@
 
       // Selection — mouse events
       let mouseDown = false;
+      let mouseDownPos = null;
       container.addEventListener('mousedown', (e) => {
         const rect = container.querySelector('canvas').getBoundingClientRect();
-        term.mouseDown(e.clientX - rect.left, e.clientY - rect.top);
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        mouseDownPos = { x, y };
+        term.mouseDown(x, y);
         mouseDown = true;
       });
       document.addEventListener('mousemove', (e) => {
@@ -147,7 +151,7 @@
         const rect = container.querySelector('canvas').getBoundingClientRect();
         term.mouseMove(e.clientX - rect.left, e.clientY - rect.top);
       });
-      document.addEventListener('mouseup', () => {
+      document.addEventListener('mouseup', (e) => {
         if (!mouseDown) return;
         mouseDown = false;
         term.mouseUp();
@@ -155,6 +159,18 @@
         const text = term.getSelection();
         if (text) {
           navigator.clipboard.writeText(text).catch(() => {});
+        }
+      });
+
+      // Click on URL — Cmd/Ctrl+click opens link
+      container.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey) {
+          const rect = container.querySelector('canvas').getBoundingClientRect();
+          const url = term.getUrlAt(e.clientX - rect.left, e.clientY - rect.top);
+          if (url) {
+            window.open(url, '_blank', 'noopener');
+            e.preventDefault();
+          }
         }
       });
 
@@ -167,7 +183,25 @@
           term.clearSelection();
           return;
         }
-      }, true); // capture phase — before the main keydown handler
+        // Cmd+F / Ctrl+F — search in scrollback
+        if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+          e.preventDefault();
+          const needle = prompt('Search:');
+          if (needle) {
+            const results = JSON.parse(term.search(needle));
+            if (results.length > 0) {
+              // Scroll to first match
+              const first = results[0];
+              if (first.row < 0) {
+                // In scrollback — scroll up to it
+                const scrollbackOffset = -first.row;
+                term.scrollUp(scrollbackOffset);
+              }
+            }
+          }
+          return;
+        }
+      }, true);
 
       // Scroll
       container.addEventListener('wheel', (e) => {

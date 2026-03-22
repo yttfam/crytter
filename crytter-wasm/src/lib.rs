@@ -2,6 +2,8 @@ use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
 use crytter_grid::Terminal as GridTerminal;
+use crytter_grid::links;
+use crytter_grid::search;
 use crytter_grid::selection::Selection;
 use crytter_input::encode_key;
 use crytter_render::{Renderer, Theme};
@@ -360,6 +362,45 @@ impl Terminal {
     #[wasm_bindgen(getter, js_name = "hasSelection")]
     pub fn has_selection(&self) -> bool {
         self.selection.is_active()
+    }
+
+    /// Get the URL at pixel position (x, y), if any.
+    #[wasm_bindgen(js_name = "getUrlAt")]
+    pub fn get_url_at(&self, x: f64, y: f64) -> Option<String> {
+        let renderer = self.renderer.as_ref()?;
+        let (row, col) = renderer.pixel_to_grid(x, y);
+        let grid = self.grid.grid();
+        let cols = self.grid.cols();
+
+        // Collect chars for this row
+        let chars: Vec<char> = (0..cols).map(|c| grid.cell(row, c).c).collect();
+        let row_links = links::detect_urls(row, &chars);
+
+        row_links
+            .into_iter()
+            .find(|link| col >= link.start_col && col < link.end_col)
+            .map(|link| link.url)
+    }
+
+    /// Search grid + scrollback for text. Returns JSON array of matches.
+    /// Each match: { row: number, startCol: number, endCol: number }
+    #[wasm_bindgen(js_name = "search")]
+    pub fn search(&self, needle: &str) -> String {
+        let grid = self.grid.grid();
+        let matches = search::search(grid, needle, 1000);
+
+        let mut json = String::from("[");
+        for (i, m) in matches.iter().enumerate() {
+            if i > 0 {
+                json.push(',');
+            }
+            json.push_str(&format!(
+                "{{\"row\":{},\"startCol\":{},\"endCol\":{}}}",
+                m.row, m.start_col, m.end_col
+            ));
+        }
+        json.push(']');
+        json
     }
 
     #[wasm_bindgen(getter, js_name = "isScrolled")]

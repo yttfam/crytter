@@ -7,6 +7,8 @@ mod attr;
 mod cell;
 mod cursor;
 mod grid;
+pub mod links;
+pub mod search;
 pub mod selection;
 mod term;
 
