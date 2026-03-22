@@ -3,7 +3,13 @@ name = "crytter-grid"
 version.workspace = true
 edition.workspace = true
 
+[features]
+default = ["unicode-width", "links", "search"]
+unicode-width = ["dep:unicode-width"]
+links = []
+search = []
+
 [dependencies]
 crytter-vte = { path = "../crytter-vte" }
-unicode-width = "0.2"
+unicode-width = { version = "0.2", optional = true }
 log = { workspace = true }

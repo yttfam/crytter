@@ -6,6 +6,11 @@ edition.workspace = true
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
 
+[features]
+default = ["links", "search"]
+links = ["crytter-grid/links"]
+search = ["crytter-grid/search"]
+
 [lib]
 crate-type = ["cdylib", "rlib"]
 

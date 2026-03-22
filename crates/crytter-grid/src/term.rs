@@ -1,3 +1,4 @@
+#[cfg(feature = "unicode-width")]
 use unicode_width::UnicodeWidthChar;
 
 use crytter_vte::Action;
@@ -156,9 +157,12 @@ impl Terminal {
     }
 
     fn print(&mut self, c: char) {
+        #[cfg(feature = "unicode-width")]
         let char_width = UnicodeWidthChar::width(c).unwrap_or(1);
+        #[cfg(not(feature = "unicode-width"))]
+        let char_width = 1usize;
+
         if char_width == 0 {
-            // Zero-width char (combining mark, etc.) — attach to previous cell
             return;
         }
 

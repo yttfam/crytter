@@ -7,7 +7,9 @@ mod attr;
 mod cell;
 mod cursor;
 mod grid;
+#[cfg(feature = "links")]
 pub mod links;
+#[cfg(feature = "search")]
 pub mod search;
 pub mod selection;
 mod term;

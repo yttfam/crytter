@@ -2,7 +2,9 @@ use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
 use crytter_grid::Terminal as GridTerminal;
+#[cfg(feature = "links")]
 use crytter_grid::links;
+#[cfg(feature = "search")]
 use crytter_grid::search;
 use crytter_grid::selection::Selection;
 use crytter_input::encode_key;
@@ -365,6 +367,7 @@ impl Terminal {
     }
 
     /// Get the URL at pixel position (x, y), if any.
+    #[cfg(feature = "links")]
     #[wasm_bindgen(js_name = "getUrlAt")]
     pub fn get_url_at(&self, x: f64, y: f64) -> Option<String> {
         let renderer = self.renderer.as_ref()?;
@@ -372,7 +375,6 @@ impl Terminal {
         let grid = self.grid.grid();
         let cols = self.grid.cols();
 
-        // Collect chars for this row
         let chars: Vec<char> = (0..cols).map(|c| grid.cell(row, c).c).collect();
         let row_links = links::detect_urls(row, &chars);
 
@@ -383,7 +385,7 @@ impl Terminal {
     }
 
     /// Search grid + scrollback for text. Returns JSON array of matches.
-    /// Each match: { row: number, startCol: number, endCol: number }
+    #[cfg(feature = "search")]
     #[wasm_bindgen(js_name = "search")]
     pub fn search(&self, needle: &str) -> String {
         let grid = self.grid.grid();
