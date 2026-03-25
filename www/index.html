@@ -105,6 +105,22 @@
             ws.send(JSON.stringify({ resize: [term.cols, term.rows] }));
             document.getElementById('term-info').textContent =
               `${term.cols}×${term.rows} · connected`;
+            // Announce to registry
+            const meta = { cols: term.cols, rows: term.rows };
+            if (typeof highlight === 'function') {
+              meta.prytty = true;
+              meta.prytty_languages = ['rust','python','json','yaml','toml','diff','log','generic'];
+            }
+            fetch(`http://${wsHost}:${wsPort}/registry/announce`, {
+              method: 'POST',
+              headers: { 'X-Hermytt-Key': token, 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name: 'crytter-' + (sessionId || 'standalone'),
+                role: 'renderer',
+                endpoint: location.href,
+                meta
+              })
+            }).catch(() => {});
             return;
           }
         }

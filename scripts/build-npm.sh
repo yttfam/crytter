@@ -35,9 +35,9 @@ cat > pkg/package.json << 'PKGJSON'
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/calibrae/crytter"
+    "url": "https://github.com/yttfam/crytter"
   },
-  "homepage": "https://github.com/calibrae/crytter",
+  "homepage": "https://github.com/yttfam/crytter",
   "license": "MIT",
   "author": "Nicolas Bousquet <dev@calii.net>",
   "sideEffects": false

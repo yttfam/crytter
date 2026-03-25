@@ -220,11 +220,16 @@ See [doc/testing-guide.md](doc/testing-guide.md) for the full testing guide.
 
 ## The YTT Family
 
+Part of the [yttfam](https://github.com/yttfam) organization.
+
 | Project | | Role |
 |---------|---|------|
-| **hermytt** | 🏔️ | Transport-agnostic PTY multiplexer |
-| **crytter** | 🖥️ | WASM terminal emulator |
-| **prytty** | ✨ | Syntax highlighting for terminal output |
+| [hermytt](https://github.com/yttfam/hermytt) | 🏔️ | Transport-agnostic PTY multiplexer |
+| [crytter](https://github.com/yttfam/crytter) | 🖥️ | WASM terminal emulator |
+| [prytty](https://github.com/yttfam/prytty) | ✨ | Syntax highlighting for terminal output |
+| [fytti](https://github.com/yttfam/fytti) | 🎨 | GPU-accelerated runtime & renderer |
+| [wytti](https://github.com/yttfam/wytti) | 🔒 | WASI sandbox runtime |
+| [shytti](https://github.com/yttfam/shytti) | 🐚 | Shell orchestrator daemon |
 
 ## License
 
