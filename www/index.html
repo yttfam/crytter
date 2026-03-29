@@ -75,18 +75,20 @@
       const wsPort = params.get('port') || '7777';
       const token = params.get('token') || 'hermytt-test-token';
 
-      // Create a fresh session (isolated PTY per tab)
-      let sessionId = null;
-      try {
-        const resp = await fetch(`http://${wsHost}:${wsPort}/session`, {
-          method: 'POST',
-          headers: { 'X-Hermytt-Key': token },
-        });
-        if (resp.ok) {
-          const data = await resp.json();
-          sessionId = data.id;
-        }
-      } catch {}
+      // Connect to existing session (recovered tab) or create a fresh one
+      let sessionId = params.get('session') || null;
+      if (!sessionId) {
+        try {
+          const resp = await fetch(`http://${wsHost}:${wsPort}/session`, {
+            method: 'POST',
+            headers: { 'X-Hermytt-Key': token },
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            sessionId = data.id;
+          }
+        } catch {}
+      }
 
       const wsPath = sessionId ? `/ws/${sessionId}` : '/ws';
       const ws = new WebSocket(`ws://${wsHost}:${wsPort}${wsPath}`);
