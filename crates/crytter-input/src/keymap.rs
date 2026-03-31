@@ -25,8 +25,8 @@ pub fn encode_key(
         }
     };
 
-    // Single printable character
-    if key.len() == 1 {
+    // Single printable character (len() is bytes, chars().count() handles UTF-8)
+    if key.chars().count() == 1 {
         let c = key.chars().next().unwrap();
 
         if ctrl {
@@ -198,6 +198,12 @@ mod tests {
         assert_eq!(encode_key("Shift", false, false, true, false), None);
         assert_eq!(encode_key("Control", true, false, false, false), None);
         assert_eq!(encode_key("Alt", false, true, false, false), None);
+    }
+
+    #[test]
+    fn accented_characters() {
+        assert_eq!(encode_key("é", false, false, false, false), Some(vec![0xC3, 0xA9]));
+        assert_eq!(encode_key("ç", false, false, false, false), Some(vec![0xC3, 0xA7]));
     }
 
     #[test]
