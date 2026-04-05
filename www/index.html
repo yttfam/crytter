@@ -43,6 +43,24 @@
   <script type="module">
     import init, { Terminal } from '/pkg/crytter_wasm.js';
 
+    function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+
     async function main() {
       await init();
 
@@ -142,14 +160,32 @@
         term.write('\x1b[31m[connection failed]\x1b[0m\r\n');
       };
 
-      // Keyboard
+      // Keyboard — skip during IME/dead key composition
+      let composing = false;
+      document.addEventListener('compositionstart', () => { composing = true; });
+      document.addEventListener('compositionend', (e) => {
+        composing = false;
+        if (e.data && ws.readyState === WebSocket.OPEN) {
+          ws.send(e.data);
+        }
+      });
       document.addEventListener('keydown', (e) => {
+        if (composing) return;
         const data = term.handleKeyEvent(e);
         if (data != null) {
           e.preventDefault();
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(data);
           }
+        }
+      });
+
+      // Paste — Cmd/Ctrl+V
+      document.addEventListener('paste', (e) => {
+        const text = e.clipboardData?.getData('text');
+        if (text && ws.readyState === WebSocket.OPEN) {
+          ws.send(text);
+          e.preventDefault();
         }
       });
 
@@ -176,7 +212,7 @@
         // Auto-copy to clipboard
         const text = term.getSelection();
         if (text) {
-          navigator.clipboard.writeText(text).catch(() => {});
+          copyText(text);
         }
       });
 
@@ -197,7 +233,7 @@
         if ((e.metaKey || e.ctrlKey) && e.key === 'c' && term.hasSelection) {
           e.preventDefault();
           const text = term.copySelection();
-          if (text) navigator.clipboard.writeText(text).catch(() => {});
+          if (text) copyText(text);
           term.clearSelection();
           return;
         }

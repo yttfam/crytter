@@ -25,6 +25,11 @@ pub fn encode_key(
         }
     };
 
+    // Dead key (^, ~, `) — no character yet, wait for composition
+    if key == "Dead" {
+        return None;
+    }
+
     // Single printable character (len() is bytes, chars().count() handles UTF-8)
     if key.chars().count() == 1 {
         let c = key.chars().next().unwrap();
@@ -50,6 +55,11 @@ pub fn encode_key(
         if c.is_ascii() || !c.is_control() {
             let mut buf = [0u8; 4];
             let s = c.encode_utf8(&mut buf);
+            // Don't wrap with ESC when Alt produced a composed character (e.g. Alt+Shift+L → |)
+            // Only wrap ASCII chars where Alt is actually a modifier
+            if alt && !c.is_ascii() {
+                return Some(s.as_bytes().to_vec());
+            }
             return Some(wrap_alt(s.as_bytes().to_vec()));
         }
 
@@ -204,6 +214,23 @@ mod tests {
     fn accented_characters() {
         assert_eq!(encode_key("é", false, false, false, false), Some(vec![0xC3, 0xA9]));
         assert_eq!(encode_key("ç", false, false, false, false), Some(vec![0xC3, 0xA7]));
+    }
+
+    #[test]
+    fn dead_key_returns_none() {
+        assert_eq!(encode_key("Dead", false, false, false, false), None);
+    }
+
+    #[test]
+    fn alt_composed_chars() {
+        // Alt+Shift+L → | on AZERTY — should NOT wrap with ESC
+        assert_eq!(encode_key("|", false, false, false, false), Some(vec![b'|']));
+        // Alt+N → ~ on AZERTY
+        assert_eq!(encode_key("~", false, false, false, false), Some(vec![b'~']));
+        // Alt produces non-ASCII: don't wrap with ESC
+        assert_eq!(encode_key("€", false, true, false, false), Some(vec![0xE2, 0x82, 0xAC]));
+        // Alt+ASCII letter: wrap with ESC (real Alt modifier)
+        assert_eq!(encode_key("a", false, true, false, false), Some(vec![0x1b, b'a']));
     }
 
     #[test]
