@@ -79,6 +79,7 @@ impl Renderer {
         self.canvas.set_width((w * dpr) as u32);
         self.canvas.set_height((h * dpr) as u32);
 
+        let _ = self.ctx.reset_transform();
         self.ctx.scale(dpr, dpr).unwrap();
         self.ctx.set_font(&self.font);
     }
