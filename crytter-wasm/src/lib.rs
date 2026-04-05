@@ -129,7 +129,7 @@ impl Terminal {
             return None;
         }
         let combined: Vec<u8> = responses.into_iter().flatten().collect();
-        Some(combined.iter().map(|&b| char::from(b)).collect())
+        String::from_utf8(combined).ok()
     }
 
     /// Register a callback for title changes.
@@ -153,7 +153,7 @@ impl Terminal {
         let app_cursor = self.grid.modes().app_cursor;
 
         let result = encode_key(&key, ctrl, alt, shift, app_cursor)
-            .map(|bytes| bytes.iter().map(|&b| char::from(b)).collect());
+            .and_then(|bytes| String::from_utf8(bytes).ok());
 
         if result.is_some() {
             // User is typing — snap to live view and show cursor
