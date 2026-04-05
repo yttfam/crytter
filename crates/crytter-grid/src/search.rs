@@ -18,7 +18,7 @@ pub fn search(grid: &Grid, needle: &str, max_results: usize) -> Vec<SearchMatch>
         return Vec::new();
     }
 
-    let needle_lower = needle.to_lowercase();
+    let needle_lower = needle.to_ascii_lowercase();
     let mut matches = Vec::new();
 
     // Search scrollback (row indices are negative: -scrollback_len .. -1)
@@ -29,7 +29,7 @@ pub fn search(grid: &Grid, needle: &str, max_results: usize) -> Vec<SearchMatch>
         }
         if let Some(line) = grid.scrollback_line(i) {
             let text: String = line.iter().map(|c| c.c).collect();
-            let text_lower = text.to_lowercase();
+            let text_lower = text.to_ascii_lowercase();
             find_in_line(&text_lower, &needle_lower, -(sb_len as i64) + i as i64, &mut matches, max_results);
         }
     }
@@ -42,7 +42,7 @@ pub fn search(grid: &Grid, needle: &str, max_results: usize) -> Vec<SearchMatch>
             break;
         }
         let text: String = (0..cols).map(|col| grid.cell(row, col).c).collect();
-        let text_lower = text.to_lowercase();
+        let text_lower = text.to_ascii_lowercase();
         find_in_line(&text_lower, &needle_lower, row as i64, &mut matches, max_results);
     }
 
