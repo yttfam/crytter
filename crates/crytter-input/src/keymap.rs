@@ -55,9 +55,9 @@ pub fn encode_key(
         if c.is_ascii() || !c.is_control() {
             let mut buf = [0u8; 4];
             let s = c.encode_utf8(&mut buf);
-            // Don't wrap with ESC when Alt produced a composed character (e.g. Alt+Shift+L → |)
-            // Only wrap ASCII chars where Alt is actually a modifier
-            if alt && !c.is_ascii() {
+            // Alt+letter/digit = ESC prefix (terminal modifier: Alt+b, Alt+f, etc.)
+            // Alt+anything else = composed character (AZERTY: |, ~, {, }, €) — no ESC
+            if alt && !c.is_ascii_alphanumeric() {
                 return Some(s.as_bytes().to_vec());
             }
             return Some(wrap_alt(s.as_bytes().to_vec()));
@@ -223,14 +223,20 @@ mod tests {
 
     #[test]
     fn alt_composed_chars() {
-        // Alt+Shift+L → | on AZERTY — should NOT wrap with ESC
-        assert_eq!(encode_key("|", false, false, false, false), Some(vec![b'|']));
-        // Alt+N → ~ on AZERTY
-        assert_eq!(encode_key("~", false, false, false, false), Some(vec![b'~']));
-        // Alt produces non-ASCII: don't wrap with ESC
+        // AZERTY Alt combos — should NOT wrap with ESC
+        assert_eq!(encode_key("|", false, true, false, false), Some(vec![b'|']));
+        assert_eq!(encode_key("~", false, true, false, false), Some(vec![b'~']));
+        assert_eq!(encode_key("{", false, true, false, false), Some(vec![b'{']));
+        assert_eq!(encode_key("}", false, true, false, false), Some(vec![b'}']));
+        assert_eq!(encode_key("[", false, true, false, false), Some(vec![b'[']));
+        assert_eq!(encode_key("]", false, true, false, false), Some(vec![b']']));
+        assert_eq!(encode_key("\\", false, true, false, false), Some(vec![b'\\']));
+        assert_eq!(encode_key("@", false, true, false, false), Some(vec![b'@']));
+        assert_eq!(encode_key("#", false, true, false, false), Some(vec![b'#']));
         assert_eq!(encode_key("€", false, true, false, false), Some(vec![0xE2, 0x82, 0xAC]));
-        // Alt+ASCII letter: wrap with ESC (real Alt modifier)
+        // Alt+letter: wrap with ESC (real terminal modifier: Alt+b, Alt+f, etc.)
         assert_eq!(encode_key("a", false, true, false, false), Some(vec![0x1b, b'a']));
+        assert_eq!(encode_key("f", false, true, false, false), Some(vec![0x1b, b'f']));
     }
 
     #[test]
